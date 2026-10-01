@@ -11,9 +11,13 @@ async function getJsonFrom<T>(url: string): Promise<T> {
 }
 
 export function getJson<T>(path: string): Promise<T> {
-  return getJsonFrom<T>(`${API_BASE_URL}${path}`)
+  return getJsonFrom<T>(apiUrl(path))
 }
 
 export function getServerJson<T>(path: string): Promise<T> {
   return getJsonFrom<T>(`${API_ORIGIN}${path}`)
+}
+
+export function apiUrl(path: string): string {
+  return `${API_BASE_URL}${path}`
 }

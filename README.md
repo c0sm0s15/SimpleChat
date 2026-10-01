@@ -1,39 +1,38 @@
 # SimpleChat
 
-Full-stack project with a React + Vite frontend and a FastAPI backend. The backend follows FastAPI's [Bigger Applications](https://fastapi.tiangolo.com/tutorial/bigger-applications/) approach with routers split into modules.
+SimpleChat is a small full-stack AI chat app. The React + Vite frontend sends the current conversation to a FastAPI backend, which streams replies from the OpenAI Responses API.
 
-## Backend
+## Configure OpenAI
 
-From `backend/`, install [uv](https://docs.astral.sh/uv/) and run:
+Copy `backend/.env.example` to `backend/.env` and add your API key:
 
-```sh
-uv sync
-uv run fastapi dev
+```env
+OPENAI_API_KEY=your-api-key
+OPENAI_MODEL=gpt-5.6-luna
 ```
 
-The API is served at `http://127.0.0.1:8000`; interactive docs are at `/docs`.
-API routes are under `/api/v1`; the root and `/hello` endpoints remain at the root.
+The key is read only by the backend. Do not put it in a `VITE_*` variable or commit `backend/.env`. `OPENAI_MODEL` is optional; the default is `gpt-5.6-luna`.
 
-The database folders are ready for configuration. The database engine, ORM, and migration dependencies have not been selected or added yet.
+## Install dependencies
 
-## Frontend
+Install [uv](https://docs.astral.sh/uv/) and Node.js with npm, then run:
 
-From `frontend/`, install Node.js (including npm) and run:
-
-```sh
-npm install
-npm run dev
+```powershell
+uv sync --project backend
+npm ci --prefix frontend
 ```
 
-The frontend uses React, Vite, and shadcn/ui. Copy `.env.example` to `.env.local` to configure the API URL.
+## Start both apps
 
-## Run both apps
-
-In PowerShell, run either script with `start`, `stop`, `restart`, or `status` as its argument. For example:
+From the repository root in PowerShell, start each service:
 
 ```powershell
 .\manage-uvicorn.ps1 start
 .\manage-vite.ps1 start
 ```
 
-Both scripts write logs under `logs/`. Vite runs with hot reload at `http://127.0.0.1:5173/`.
+Open [http://127.0.0.1:5173/](http://127.0.0.1:5173/). The FastAPI API is at `http://127.0.0.1:8000`; interactive docs are at `/docs`. The manager scripts accept `start`, `stop`, `restart`, and `status`, and write logs under `logs/`.
+
+## Conversation and privacy
+
+The current conversation exists only in frontend memory. It is sent to OpenAI to generate replies and clears when you start a new chat or refresh the page. SimpleChat does not save conversation history. OpenAI’s data controls and API policies still apply to requests sent to OpenAI.
