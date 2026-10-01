@@ -1,0 +1,12 @@
+[project]
+name = "simplechat-api"
+version = "0.1.0"
+description = "FastAPI backend scaffold"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi[standard]",
+    "fuzzywuzzy>=0.18.0",
+]
+
+[tool.fastapi]
+entrypoint = "app.main:app"
